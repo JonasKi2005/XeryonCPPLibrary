@@ -19,8 +19,7 @@ int main()
     E->findIndex();
 
     std::cout << "Found all indicies!!";
-    A->setDPOS(300_nm);
-    // std::this_thread::sleep_for(std::chrono::seconds(10));
+    A->setDPOS(5_mm);
 
     controller->stop();
     delete controller;

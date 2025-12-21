@@ -43,3 +43,7 @@ cmake-build-*/
 
 # Misc
 .log
+log.txt
+
+# Ensure any runtime log files are ignored
+*.log

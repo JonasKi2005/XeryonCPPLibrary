@@ -1,0 +1,45 @@
+# Build and temporary files
+/build/
+/CMakeFiles/
+/CMakeCache.txt
+/cmake_install.cmake
+/Makefile
+/bin/
+/*.o
+/*.obj
+/*.exe
+/*.log
+
+# Editor and OS files
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+
+# Generated files
+/*.dir
+
+# User settings
+settings_default.txt
+
+# Python cache
+__pycache__/
+
+# Coverage and test output
+/coverage/
+
+# CTest temporary
+Testing/
+
+# Binary outputs
+*.so
+*.a
+*.dylib
+
+# Ignore build artifacts created by some IDEs
+build-*/
+cmake-build-*/
+
+# Misc
+.log

@@ -42,7 +42,7 @@ endif()
 target_include_directories(XeryonLib
     PUBLIC 
         # Use $<BUILD_INTERFACE:...> so Asio is only linked during the build phase
-        $<BUILD_INTERFACE:${asio_SOURCE_DIR}/asio/include>
+        $<BUILD_INTERFACE:${asio_SOURCE_DIR}/include>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
 )
@@ -58,7 +58,12 @@ target_link_libraries(XeryonLib
 )
 
 # --- Compiler Warnings ---
-target_compile_options(XeryonLib PRIVATE -Wall -Wextra -pedantic)
+if (MSVC)
+    target_compile_definitions(XeryonLib PRIVATE _USE_MATH_DEFINES)
+    target_compile_options(XeryonLib PRIVATE /W4 /wd4820)
+else ()
+    target_compile_options(XeryonLib PRIVATE -Wall -Wextra -pedantic)
+endif()
 
 # --- Sanitizers (Debug Helper) ---
 option(ENABLE_ASAN "Enable AddressSanitizer and UndefinedBehaviorSanitizer" OFF)

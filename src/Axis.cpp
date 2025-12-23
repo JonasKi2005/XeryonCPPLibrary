@@ -418,12 +418,12 @@ int Axis::applySettingsMultiplier(const std::string &tag, int32_t value)
         // Limits are given in mm (or deg) and have to be converted to encoder units
         if (this->stage_.isLinear())
         {
-            double enc = this->convertUnitsToEncoder(Distance(static_cast<long double>(value), Distance::MM));
+            long double enc = this->convertUnitsToEncoder(Distance(static_cast<long double>(value), Distance::MM));
             return static_cast<int>(std::lround(enc));
         }
         else
         {
-            double enc = this->convertUnitsToEncoder(Distance(static_cast<long double>(value), Distance::DEG));
+            long double enc = this->convertUnitsToEncoder(Distance(static_cast<long double>(value), Distance::DEG));
             return static_cast<int>(std::lround(enc));
         }
     }
@@ -443,12 +443,12 @@ int Axis::applySettingsMultiplier(const std::string &tag, int32_t value)
     {
         if (this->stage_.isLinear())
         {
-            double enc = this->convertUnitsToEncoder(Distance(static_cast<long double>(value), Distance::MM));
+            long double enc = this->convertUnitsToEncoder(Distance(static_cast<long double>(value), Distance::MM));
             return static_cast<int>(std::lround(enc));
         }
         else
         {
-            double enc = this->convertUnitsToEncoder(Distance(static_cast<long double>(value), Distance::DEG));
+            long double enc = this->convertUnitsToEncoder(Distance(static_cast<long double>(value), Distance::DEG));
             return static_cast<int>(std::lround(enc));
         }
     }

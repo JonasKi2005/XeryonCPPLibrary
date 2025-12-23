@@ -131,24 +131,17 @@ void Communication::startNextWrite_()
     asio::async_write(serial_, asio::buffer(nextCmd),
                       [this](const asio::error_code &ec, std::size_t bytesWritten)
                       {
-                          // std::cout << "Write callback triggered! ec=" << ec.message()
-                          //         << " bytes=" << bytesWritten << "\n";
-
+                          (void)bytesWritten;
                           std::lock_guard<std::mutex> lock(writeMutex_);
-                          // std::cout << "Write callback: acquired lock\n";
-
                           if (!ec)
                           {
-                              // std::cout << "Write successful, popping queue\n";
                               writeQueue_.pop();
                               if (!writeQueue_.empty())
                               {
-                                  // std::cout << "Queue not empty, writing next\n";
                                   startNextWrite_();
                               }
                               else
                               {
-                                  // std::cout << "Queue empty, setting writeInProgress_ = false\n";
                                   writeInProgress_ = false;
                               }
                           }
@@ -158,7 +151,6 @@ void Communication::startNextWrite_()
                               writeInProgress_ = false;
                           }
                       });
-    // std::cout << "async_write initiated\n";
 }
 
 void Communication::closeCommunication()

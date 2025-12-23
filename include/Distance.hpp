@@ -83,7 +83,7 @@ namespace Xeryon
          * @param other The scalar value to divide by
          * @return The quotient as a double
          */
-        double operator/(double other) { return this->value_si_ / other; }
+        long double operator/(double other) { return this->value_si_ / other; }
 
         /**
          * @brief Compares two Distance objects for equality

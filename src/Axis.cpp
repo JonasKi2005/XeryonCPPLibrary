@@ -27,12 +27,11 @@ bool Axis::findIndex(int direction, bool forceWaiting)
     this->sendCommand_("INDX=" + std::to_string(direction));
     this->wasValidDPOS_ = false;
 
-    if (DISABLE_WAITING == false || forceWaiting == true)
+    if constexpr (DISABLE_WAITING == false || forceWaiting == true)
     {
         std::cout << "Seaching index for axis " << this->axisLetter_ << ".\n";
         this->waitForUpdate_();
         this->waitForUpdate_();
-        int i = 0;
         while (!this->isEncoderValid())
         {
             // std::cout << "Stat value: " << this->getData("STAT").value_or(0) << std::endl;
@@ -65,17 +64,16 @@ void Axis::move(const Distance &d)
 
 bool Axis::setDPOS(const Distance &d, bool outputToConsole, bool forceWaiting)
 {
-    long double value = d;
-    std::cout << "Value of d = " << d << std::endl;
-    int DPOS = this->convertUnitsToEncoder(d);
-    std::cout << "Converted dpos = " << DPOS << std::endl;
+    (void)outputToConsole;
+    (void)forceWaiting;
+    int DPOS = (int)this->convertUnitsToEncoder(d);
 
     error = false;
 
     this->sendCommand_("DPOS=" + std::to_string(DPOS));
     this->wasValidDPOS_ = false;
 
-    if (DISABLE_WAITING == false || forceWaiting == true || DEBUG_MODE == false)
+    if constexpr (DISABLE_WAITING == false || forceWaiting == true || DEBUG_MODE == false)
     {
         while (!(this->isPositionReached() && this->isWithinTol(DPOS)))
         {
@@ -161,6 +159,7 @@ void Axis::setUnit(Distance::Type unit)
 
 void Axis::step(const Distance &value, bool forceWaiting)
 {
+    (void)forceWaiting;
     int v = (int)this->convertUnitsToEncoder(value);
     int newDPOS = 0;
     if (this->wasValidDPOS_)
@@ -607,7 +606,7 @@ Distance Axis::convertEncoderUnitsToUnits(int value, Distance::Type type)
  * @param value The distance that should be converted to encoder units
  * @return double of the equivalent value in encoder units
  */
-double Axis::convertUnitsToEncoder(Distance value)
+long double Axis::convertUnitsToEncoder(Distance value)
 {
     if (value.type() == Distance::ENC)
         return value;
@@ -634,24 +633,16 @@ void Axis::sendCommand_(const std::string &command)
 
 void Axis::waitForUpdate_()
 {
-
     int wait_nb = 3;
-    // if (settings_.count("POLI"))
-    // {
-    //     wait_nb = wait_nb * getSetting("POLI").value_or(1) / DEFAULT_POLI_VALUE;
-    //     if (this->axisLetter_ == 'A')
-    //         std::cout << "Wait nb = " << wait_nb << "\n";
-    // }
-
     int start_nb;
     {
         std::lock_guard<std::mutex> lk(cv_m);
-        start_nb = this->updateNB_; // ✅ Read with lock
+        start_nb = this->updateNB_;
     }
 
     std::unique_lock<std::mutex> lk(cv_m);
     cv_.wait(lk, [this, start_nb, wait_nb]
-             { return updateNB_ - start_nb >= wait_nb; }); // ✅ FIX: >= not
+             { return updateNB_ - start_nb >= wait_nb; });
 }
 
 int Axis::getStatBitAtIndex(int idx)
@@ -659,8 +650,10 @@ int Axis::getStatBitAtIndex(int idx)
     return (this->getData("STAT").value_or(0) >> idx) & 1;
 }
 
+// TODO: implement this function
 bool Axis::isWithinTol(int DPOS)
 {
+    (void)DPOS;
     return false;
 }
 

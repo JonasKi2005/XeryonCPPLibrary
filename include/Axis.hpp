@@ -197,7 +197,7 @@ namespace Xeryon
         /**
          * @brief Convert a Distance into encoder units
          */
-        double convertUnitsToEncoder(Distance value);
+        long double convertUnitsToEncoder(Distance value);
 
         /**
          * @brief Receive a line of data from the communication layer and process it

@@ -73,7 +73,7 @@ void Controller::stop()
         axis->stop();
     }
     this->comm_.closeCommunication();
-    std::cout << "Programm stopped running\n";
+    std::cout << "Controller stopped\n";
 }
 
 void Controller::stopMovement()
@@ -207,7 +207,7 @@ void Controller::readSettings()
             std::string tag = line.substr(0, pos);
             std::string value = line.substr(pos + 1);
 
-            std::cout << "Setting for axis " << axis->getLetter() << ": " << tag << " = " << value << std::endl;
+            // std::cout << "Setting for axis " << axis->getLetter() << ": " << tag << " = " << value << std::endl;
             axis->setSetting(tag, value, true, true); // doNotSendThrough = true
         }
     }

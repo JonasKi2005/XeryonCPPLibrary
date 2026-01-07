@@ -23,7 +23,7 @@ Axis::Axis(Controller *controller, Stage stage, char letter)
 
 bool Axis::findIndex(int direction, bool forceWaiting)
 {
-    std::cout << "Started searching for index at axis: " << this->axisLetter_ << "\n";
+    // std::cout << "Started searching for index at axis: " << this->axisLetter_ << "\n";
     this->sendCommand_("INDX=" + std::to_string(direction));
     this->wasValidDPOS_ = false;
 
@@ -274,7 +274,7 @@ void Axis::setSpeed(int value)
 
 std::optional<int32_t> Axis::getSetting(const std::string &tag)
 {
-    std::cout << "getSettings call with tag: " << tag << std::endl;
+    // std::cout << "getSettings call with tag: " << tag << std::endl;
     std::lock_guard<std::mutex> lock(settingsMutex_);
     if (settings_.find(tag) != settings_.end())
         return settings_[tag];
@@ -459,7 +459,7 @@ int Axis::applySettingsMultiplier(const std::string &tag, int32_t value)
 
 void Axis::sendCommand(const std::string &command)
 {
-    std::cout << "sendCommand with command: " << command << std::endl;
+    // std::cout << "sendCommand with command: " << command << std::endl;
     std::string tag = command.substr(0, command.find('='));
     std::string value = command.substr(command.find('=') + 1);
 
@@ -477,7 +477,7 @@ void Axis::sendCommand(const std::string &command)
 void Axis::sendSettings()
 {
     // Copy settings while holding the lock
-    std::cout << "sendSettings called\n";
+    // std::cout << "sendSettings called\n";
     std::map<std::string, int32_t> settingsCopy;
     {
         std::lock_guard<std::mutex> lock(settingsMutex_);
@@ -622,7 +622,7 @@ long double Axis::convertUnitsToEncoder(Distance value)
 
 void Axis::sendCommand_(const std::string &command)
 {
-    std::cout << "sendingCommand_ called with " << command << std::endl;
+    // std::cout << "sendingCommand_ called with " << command << std::endl;
     std::string prefix = "";
     if (!controller_->isSingleAxisSystem())
     {
